@@ -100,84 +100,55 @@
       color: var(--text);
       text-decoration: none;
       margin: 0.3em 0;
-      transition: color 0.2s ease;
       transition: color 0.2s ease, transform 0.2s ease;
     }
 
     .column a:hover {
-      color: #000000;
+      color: #c0c0c0;
       transform: scale(1.05);
     }
 
-    #weather, #todo {
+    #weather {
       position: fixed;
       top: 1em;
+      right: 1em;
       font-size: 0.9em;
       padding: 0.5em 1em;
       background: var(--bg-color);
       border-radius: 6px;
-    }
-
-    #weather {
-      right: 1em;
       text-align: right;
     }
 
     #todo {
+      position: fixed;
+      top: 1em;
       left: 1em;
-      text-align: left;
+      width: 22%;
+      height: 40%;
+      max-height: 100%;
+      padding: 1.5rem;
+      background: var(--bg-color);
+      border-radius: 6px;
     }
 
-    #todo input {
+    #todolist {
       width: 100%;
-      padding: 0.3em;
-      margin-bottom: 0.3em;
-      font-size: 0.9em;
-      background: var(--faint);
+      height: 100%;
       border: none;
-      color: var(--bg-color);
+      resize: none;
+      outline: none;
+      background-color: rgba(0, 0, 0, 0);
+      color: var(--text);
+      font-family: var(--font-body);
+      font-size: 0.9em;
     }
-
-#todo ul {
-  list-style: none;
-  padding: 0;
-  margin: 0;
-}
-
-.task-item {
-  display: flex;
-  align-items: center;
-  gap: 0.5em;
-  margin-bottom: 0.3em;
-  background: var(--faint);
-  padding: 0.4em 0.6em;
-  border-radius: 4px;
-}
-
-.task-item input[type="checkbox"] {
-  accent-color: var(--accent);
-}
-
-.task-item .done {
-  text-decoration: line-through;
-  color: var(--accent);
-}
-
-.task-item button {
-  margin-left: auto;
-  background: none;
-  border: none;
-  color: var(--accent);
-  font-size: 1.2em;
-  cursor: pointer;
-}
   </style>
 </head>
 <body>
   <div id="weather">Loading weather...</div>
+
   <div id="todo">
-    <input type="text" id="new-task" placeholder="Add todo...">
-    <ul id="task-list"></ul>
+    <textarea id="todolist" placeholder="Your todo list..."></textarea>
   </div>
 
   <div class="wrapper">
@@ -239,60 +210,27 @@
       document.getElementById('quote').textContent = quote;
     }
 
-    // Weather (wttr.in plain text)
+    // Weather
     fetch('https://wttr.in/?format=1')
       .then(res => res.text())
       .then(data => document.getElementById('weather').textContent = data)
       .catch(() => document.getElementById('weather').textContent = 'Weather unavailable');
 
-    // Todo List
-    const taskInput = document.getElementById('new-task');
-    const taskList = document.getElementById('task-list');
-    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
-
-function renderTasks() {
-  taskList.innerHTML = '';
-  tasks.forEach((task, i) => {
-    const li = document.createElement('li');
-    li.innerHTML = `
-      <label class="task-item">
-        <input type="checkbox" onclick="toggleTask(${i})" ${task.done ? 'checked' : ''}>
-        <span class="${task.done ? 'done' : ''}">${task.text}</span>
-        <button onclick="removeTask(${i})">×</button>
-      </label>`;
-    taskList.appendChild(li);
-  });
-}
-
-function toggleTask(index) {
-  tasks[index].done = !tasks[index].done;
-  localStorage.setItem('tasks', JSON.stringify(tasks));
-  renderTasks();
-}
-
-
-    function removeTask(index) {
-      tasks.splice(index, 1);
-      localStorage.setItem('tasks', JSON.stringify(tasks));
-      renderTasks();
-    }
-
-    taskInput.addEventListener('keydown', e => {
-      if (e.key === 'Enter' && taskInput.value.trim()) {
-        tasks.push({ text: taskInput.value.trim(), done: false });
-        localStorage.setItem('tasks', JSON.stringify(tasks));
-        taskInput.value = '';
-        renderTasks();
-      }
+    // Todo – localStorage binding
+    const todoField = document.getElementById('todolist');
+    const saved = localStorage.getItem('todolist');
+    if (saved) todoField.value = saved;
+    todoField.addEventListener('input', () => {
+      localStorage.setItem('todolist', todoField.value);
     });
 
     updateClock();
     randomQuote();
     setInterval(updateClock, 10000);
-    renderTasks();
   </script>
 </body>
 </html>
+
 
 </body>
 </html>
