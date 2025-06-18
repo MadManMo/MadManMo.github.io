@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Start Page</title>
+  <style>
+    :root {
+      --bg: #2a1e1e;
+      --text: #e6d4cd;
+      --accent: #a88484;
+      --faint: #7a6d6d;
+      --font-main: 'Georgia', serif;
+    }
+
+    body {
+      margin: 0;
+      background-color: var(--bg);
+      color: var(--text);
+      font-family: var(--font-main);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      min-height: 100vh;
+      padding: 2em;
+    }
+
+    #clock {
+      font-size: 1.2em;
+      margin-bottom: 0.5em;
+      color: var(--faint);
+    }
+
+    #quote {
+      font-style: italic;
+      font-size: 1.1em;
+      text-align: center;
+      margin-bottom: 1em;
+      color: var(--accent);
+    }
+
+    #search-form {
+      margin-bottom: 2em;
+      width: 100%;
+      max-width: 600px;
+    }
+
+    #search-form input {
+      width: 100%;
+      padding: 0.8em;
+      font-size: 1em;
+      border: none;
+      border-radius: 4px;
+      background: var(--faint);
+      color: var(--bg);
+    }
+
+    .columns {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 2em;
+      justify-content: center;
+      width: 100%;
+      max-width: 1000px;
+    }
+
+    .column {
+      min-width: 150px;
+    }
+
+    .column h2 {
+      font-size: 1.2em;
+      color: var(--accent);
+      margin-bottom: 0.5em;
+      border-bottom: 1px solid var(--accent);
+    }
+
+    .column a {
+      display: block;
+      color: var(--text);
+      text-decoration: none;
+      margin: 0.3em 0;
+      transition: color 0.2s ease;
+    }
+
+    .column a:hover {
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+  <div id="clock">00:00 – January 1, 1970</div>
+  <div id="quote">“This is a placeholder Ashley quote.”</div>
+
+  <form id="search-form" action="https://www.google.com/search" method="get">
+    <input type="text" name="q" placeholder="Search Google..." autocomplete="off" />
+  </form>
+
+  <div class="columns">
+    <div class="column">
+      <h2>Finance</h2>
+      <a href="https://uphold.com" target="_blank">Uphold</a>
+      <a href="https://paypal.com" target="_blank">PayPal</a>
+    </div>
+    <div class="column">
+      <h2>Media</h2>
+      <a href="https://youtube.com" target="_blank">YouTube</a>
+      <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
+      <a href="https://spotify.com" target="_blank">Spotify</a>
+    </div>
+    <div class="column">
+      <h2>Social</h2>
+      <a href="https://twitter.com" target="_blank">Twitter</a>
+      <a href="https://boards.4channel.org" target="_blank">4chan</a>
+      <a href="https://reddit.com" target="_blank">Reddit</a>
+    </div>
+    <div class="column">
+      <h2>Tools</h2>
+      <a href="https://aur.archlinux.org" target="_blank">AUR</a>
+      <a href="https://chat.openai.com" target="_blank">GPT</a>
+      <a href="https://github.com" target="_blank">GitHub</a>
+    </div>
+  </div>
+
+  <script>
+    function updateClock() {
+      const now = new Date();
+      const options = { year: 'numeric', month: 'long', day: 'numeric' };
+      const time = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const date = now.toLocaleDateString(undefined, options);
+      document.getElementById('clock').textContent = `${time} – ${date}`;
+    }
+
+    const ashleyQuotes = [
+      "“You’re not like the others… you stayed.”",
+      "“Sometimes I think the monsters are the only ones telling the truth.”",
+      "“I miss who I never was.”",
+      "“This isn’t home. This is where the screaming stops.”",
+      "“I remember everything you forgot.”"
+    ];
+
+    function randomQuote() {
+      const quote = ashleyQuotes[Math.floor(Math.random() * ashleyQuotes.length)];
+      document.getElementById('quote').textContent = quote;
+    }
+
+    updateClock();
+    randomQuote();
+    setInterval(updateClock, 10000);
+  </script>
+</body>
+</html>
