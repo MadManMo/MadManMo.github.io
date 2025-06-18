@@ -2,32 +2,49 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Start Page</title>
+  <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@600&family=Roboto&display=swap" rel="stylesheet">
   <style>
     :root {
-      --bg: #2a1e1e;
+      --bg-color: rgba(42, 30, 30, 0.85);
       --text: #e6d4cd;
       --accent: #a88484;
       --faint: #7a6d6d;
-      --font-main: 'Georgia', serif;
+      --font-title: 'JetBrains Mono', monospace;
+      --font-body: 'Roboto', sans-serif;
     }
 
-    body {
+    html, body {
       margin: 0;
-      background-color: var(--bg);
+      padding: 0;
+      height: 100%;
+      background: url('img/bg.jpg') no-repeat center center fixed;
+      background-size: cover;
+      font-family: var(--font-body);
       color: var(--text);
-      font-family: var(--font-main);
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background: var(--bg-color);
+      z-index: -1;
+    }
+
+    .wrapper {
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
+      justify-content: center;
       min-height: 100vh;
       padding: 2em;
+      text-align: center;
     }
 
     #clock {
-      font-size: 1.2em;
+      font-size: 1.3em;
       margin-bottom: 0.5em;
       color: var(--faint);
     }
@@ -35,15 +52,14 @@
     #quote {
       font-style: italic;
       font-size: 1.1em;
-      text-align: center;
       margin-bottom: 1em;
       color: var(--accent);
     }
 
     #search-form {
-      margin-bottom: 2em;
       width: 100%;
       max-width: 600px;
+      margin-bottom: 2em;
     }
 
     #search-form input {
@@ -53,7 +69,7 @@
       border: none;
       border-radius: 4px;
       background: var(--faint);
-      color: var(--bg);
+      color: var(--bg-color);
     }
 
     .columns {
@@ -70,14 +86,16 @@
     }
 
     .column h2 {
+      font-family: var(--font-title);
       font-size: 1.2em;
-      color: var(--accent);
       margin-bottom: 0.5em;
       border-bottom: 1px solid var(--accent);
+      color: var(--accent);
     }
 
     .column a {
       display: block;
+      font-family: var(--font-body);
       color: var(--text);
       text-decoration: none;
       margin: 0.3em 0;
@@ -87,43 +105,96 @@
     .column a:hover {
       color: var(--accent);
     }
+
+    #weather, #todo {
+      position: fixed;
+      top: 1em;
+      font-size: 0.9em;
+      padding: 0.5em 1em;
+      background: var(--bg-color);
+      border-radius: 6px;
+    }
+
+    #weather {
+      right: 1em;
+      text-align: right;
+    }
+
+    #todo {
+      left: 1em;
+      text-align: left;
+    }
+
+    #todo input {
+      width: 100%;
+      padding: 0.3em;
+      margin-bottom: 0.3em;
+      font-size: 0.9em;
+      background: var(--faint);
+      border: none;
+      color: var(--bg-color);
+    }
+
+    #todo ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    #todo li {
+      margin-bottom: 0.3em;
+    }
+
+    #todo li span {
+      cursor: pointer;
+      color: var(--accent);
+    }
   </style>
 </head>
 <body>
-  <div id="clock">00:00 – January 1, 1970</div>
-  <div id="quote">“This is a placeholder Ashley quote.”</div>
+  <div id="weather">Loading weather...</div>
+  <div id="todo">
+    <input type="text" id="new-task" placeholder="Add todo...">
+    <ul id="task-list"></ul>
+  </div>
 
-  <form id="search-form" action="https://www.google.com/search" method="get">
-    <input type="text" name="q" placeholder="Search Google..." autocomplete="off" />
-  </form>
+  <div class="wrapper">
+    <div id="clock">00:00 – January 1, 1970</div>
+    <div id="quote">“This is a placeholder Ashley quote.”</div>
 
-  <div class="columns">
-    <div class="column">
-      <h2>Finance</h2>
-      <a href="https://uphold.com" target="_blank">Uphold</a>
-      <a href="https://paypal.com" target="_blank">PayPal</a>
-    </div>
-    <div class="column">
-      <h2>Media</h2>
-      <a href="https://youtube.com" target="_blank">YouTube</a>
-      <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
-      <a href="https://spotify.com" target="_blank">Spotify</a>
-    </div>
-    <div class="column">
-      <h2>Social</h2>
-      <a href="https://twitter.com" target="_blank">Twitter</a>
-      <a href="https://boards.4channel.org" target="_blank">4chan</a>
-      <a href="https://reddit.com" target="_blank">Reddit</a>
-    </div>
-    <div class="column">
-      <h2>Tools</h2>
-      <a href="https://aur.archlinux.org" target="_blank">AUR</a>
-      <a href="https://chat.openai.com" target="_blank">GPT</a>
-      <a href="https://github.com" target="_blank">GitHub</a>
+    <form id="search-form" action="https://www.google.com/search" method="get">
+      <input type="text" name="q" placeholder="Search Google..." autocomplete="off" />
+    </form>
+
+    <div class="columns">
+      <div class="column">
+        <h2>Finance</h2>
+        <a href="https://uphold.com" target="_blank">Uphold</a>
+        <a href="https://paypal.com" target="_blank">PayPal</a>
+      </div>
+      <div class="column">
+        <h2>Media</h2>
+        <a href="https://youtube.com" target="_blank">YouTube</a>
+        <a href="https://soundcloud.com" target="_blank">SoundCloud</a>
+        <a href="https://spotify.com" target="_blank">Spotify</a>
+      </div>
+      <div class="column">
+        <h2>Social</h2>
+        <a href="https://twitter.com" target="_blank">Twitter</a>
+        <a href="https://boards.4channel.org" target="_blank">4chan</a>
+        <a href="https://reddit.com" target="_blank">Reddit</a>
+      </div>
+      <div class="column">
+        <h2>Tools</h2>
+        <a href="https://aur.archlinux.org" target="_blank">AUR</a>
+        <a href="https://chat.openai.com" target="_blank">GPT</a>
+        <a href="https://github.com" target="_blank">GitHub</a>
+      </div>
     </div>
   </div>
 
   <script>
+    // Clock
     function updateClock() {
       const now = new Date();
       const options = { year: 'numeric', month: 'long', day: 'numeric' };
@@ -132,6 +203,7 @@
       document.getElementById('clock').textContent = `${time} – ${date}`;
     }
 
+    // Quotes
     const ashleyQuotes = [
       "“You’re not like the others… you stayed.”",
       "“Sometimes I think the monsters are the only ones telling the truth.”",
@@ -145,9 +217,48 @@
       document.getElementById('quote').textContent = quote;
     }
 
+    // Weather (wttr.in plain text)
+    fetch('https://wttr.in/?format=1')
+      .then(res => res.text())
+      .then(data => document.getElementById('weather').textContent = data)
+      .catch(() => document.getElementById('weather').textContent = 'Weather unavailable');
+
+    // Todo List
+    const taskInput = document.getElementById('new-task');
+    const taskList = document.getElementById('task-list');
+    let tasks = JSON.parse(localStorage.getItem('tasks')) || [];
+
+    function renderTasks() {
+      taskList.innerHTML = '';
+      tasks.forEach((task, i) => {
+        const li = document.createElement('li');
+        li.innerHTML = `<span onclick="removeTask(${i})">${task}</span>`;
+        taskList.appendChild(li);
+      });
+    }
+
+    function removeTask(index) {
+      tasks.splice(index, 1);
+      localStorage.setItem('tasks', JSON.stringify(tasks));
+      renderTasks();
+    }
+
+    taskInput.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && taskInput.value.trim()) {
+        tasks.push(taskInput.value.trim());
+        localStorage.setItem('tasks', JSON.stringify(tasks));
+        taskInput.value = '';
+        renderTasks();
+      }
+    });
+
     updateClock();
     randomQuote();
     setInterval(updateClock, 10000);
+    renderTasks();
   </script>
+</body>
+</html>
+
 </body>
 </html>
